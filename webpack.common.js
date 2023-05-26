@@ -20,7 +20,10 @@ module.exports = {
             },
         ],
     },
-    optimization: {
+    externals: {
+        './lib/': 'library'
+    }
+    /*optimization: {
         minimize: true,
         minimizer: [
             new TerserPlugin({
@@ -34,7 +37,7 @@ module.exports = {
             }),
 
         ],
-    }
+    }*/
 }
 
 console.log("common")

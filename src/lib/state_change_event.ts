@@ -1,5 +1,5 @@
 import { BlooketEvent } from './events'
-import { DynamicObject } from './lib';
+import { DynamicObject } from './hook';
 
 class StateChangeEvent extends BlooketEvent {
 

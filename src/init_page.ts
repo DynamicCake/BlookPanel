@@ -1,3 +1,5 @@
+import { getReactHandler, unhookSetState } from './lib/hook'
+
 /**
  * Injects the panel's html
  * @param {string} panelName the id that the panel will use
@@ -62,7 +64,13 @@ function makeDraggable(mainDiv: HTMLElement, headerDiv: HTMLElement) {
     }
 }
 
+function shutDown(rootElement: HTMLElement, reactHandler: Function) {
+    document.removeChild(rootElement);
+    unhookSetState(reactHandler);
+}
+
 export {
     makeDraggable,
     injectPanelHtml,
+    shutDown
 }
