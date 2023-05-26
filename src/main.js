@@ -1,10 +1,10 @@
-import { makeDraggable, injectPanelHtml, injectCss } from './init_page.js'
+import { makeDraggable, injectPanelHtml } from './init_page'
+import './style.scss'
 
 const panelId = "blook-panel";
 
 
 injectPanelHtml(panelId, "Blook Panel");
-injectCss("./style.css");
 
 let mainPanel = document.getElementById(panelId);
 let panelHeader = document.getElementById(`${panelId}-header`);

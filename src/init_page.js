@@ -16,18 +16,6 @@ function injectPanelHtml(panelName, headerMessage) {
 
     document.body.append(container)
 }
-/**
- * Injects a css file using a path
- * @param {string} cssPath path to the css file
- */
-function injectCss(cssPath) {
-
-    let linkElement = document.createElement('link');
-    linkElement.href = cssPath;
-    linkElement.rel = 'stylesheet';
-
-    document.head.appendChild(linkElement);
-}
 
 /**
  * Makes the `mainDiv` draggable using `headerDiv`
@@ -77,5 +65,4 @@ function makeDraggable(mainDiv, headerDiv) {
 export {
     makeDraggable,
     injectPanelHtml,
-    injectCss,
 }
