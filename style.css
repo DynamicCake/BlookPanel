@@ -1,0 +1,18 @@
+#blooket-cake {
+    position: absolute;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    font-family: 'Roboto', sans-serif;
+    user-select: none;
+    white-space: nowrap;
+}
+
+#blooket-cake-header {
+    cursor: move;
+    padding: 10px;
+    background-color: #ccc;
+}
+
+#blooket-cake-items {
+    padding: 10px;
+}

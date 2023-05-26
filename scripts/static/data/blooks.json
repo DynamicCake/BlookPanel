@@ -1,0 +1,722 @@
+[
+    {
+        "category": "Artic Animals",
+        "name": "Artic Fox",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Artic Hare",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Baby Penguin",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Penguin",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Polar Bear",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Seal",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Snow Owl",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Artic Animals",
+        "name": "Walrus",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Chick",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Chicken",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Cow",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Duck",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Goat",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Horse",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Pig",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Farm Animals",
+        "name": "Sheep",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Bear",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Fox",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Hedgehog",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Moose",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Owl",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Raccoon",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Forest Animals",
+        "name": "Squirrel",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Cat",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Dog",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Goldfish",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Hamster",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Kitten",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Puppy",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Rabbit",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Pets",
+        "name": "Turtle",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Anaconda",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Capuchin",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Cockatoo",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Jaguar",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Macaw",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Orangutan",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Parrot",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Panther",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Tiger",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Tropical Animals",
+        "name": "Toucan",
+        "dropRate": "Default Blook",
+        "rarity": "Common"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Frost Wreath",
+        "dropRate": "0.03%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Gingerbread House",
+        "dropRate": "11%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Gingerbread Man",
+        "dropRate": "11%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Holiday Gift",
+        "dropRate": "17.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Holiday Wreath",
+        "dropRate": "17.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Hot Chocolate",
+        "dropRate": "17.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Santa Claus",
+        "dropRate": "1.05%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Snow Globe",
+        "dropRate": "17.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Snowman",
+        "dropRate": "5.9%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Blizzard",
+        "name": "Tropical Globe",
+        "dropRate": "0.02%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Bots",
+        "name": "Angry Bot",
+        "dropRate": "19.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Bots",
+        "name": "Brainy Bot",
+        "dropRate": "3.7%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Bots",
+        "name": "Buddy Bot",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Bots",
+        "name": "Happy Bot",
+        "dropRate": "19.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Bots",
+        "name": "Lil Bot",
+        "dropRate": "19.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Bots",
+        "name": "lovely Bot",
+        "dropRate": "19.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Bots",
+        "name": "Mega Bot",
+        "dropRate": "0.3%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Bots",
+        "name": "Watson",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Breakfast Combo",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Cereal",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Breakfast",
+        "name": "French Toast",
+        "dropRate": "5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Milk",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Orange Juice",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Pancakes",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Pizza",
+        "dropRate": "2%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Toast",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Waffle",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Breakfast",
+        "name": "Yogurt",
+        "dropRate": "12.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Medieval",
+        "name": "Dragon",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Medieval",
+        "name": "Elf",
+        "dropRate": "13.4%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Medieval",
+        "name": "Fairy",
+        "dropRate": "13.4%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Medieval",
+        "name": "Jester",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Medieval",
+        "name": "King",
+        "dropRate": "1%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Medieval",
+        "name": "Queen",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Medieval",
+        "name": "Slime Monster",
+        "dropRate": "13.4%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Medieval",
+        "name": "Unicorn",
+        "dropRate": "5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Medieval",
+        "name": "Witch",
+        "dropRate": "13.4%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Medieval",
+        "name": "Wizard",
+        "dropRate": "13.4%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Space",
+        "name": "Alien",
+        "dropRate": "18.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Space",
+        "name": "Astronaut",
+        "dropRate": "0.45%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Space",
+        "name": "Black Atronaut",
+        "dropRate": "Wednesday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Blue Atronaut",
+        "dropRate": "Unreleased",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Brown Atronaut",
+        "dropRate": "Saturday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Cyan Atronaut",
+        "dropRate": "Unreleased",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Earth",
+        "dropRate": "18.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Space",
+        "name": "Green Atronaut",
+        "dropRate": "Sunday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Lime Atronaut",
+        "dropRate": "Unreleased",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Meteor",
+        "dropRate": "18.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Space",
+        "name": "Orange Atronaut",
+        "dropRate": "Thursday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Pink Atronaut",
+        "dropRate": "Monday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Planet",
+        "dropRate": "9%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Space",
+        "name": "Purple Atronaut",
+        "dropRate": "Unreleased",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Red Atronaut",
+        "dropRate": "Friday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Space",
+        "name": "Spaceship",
+        "dropRate": "4.5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Space",
+        "name": "Stars",
+        "dropRate": "18.75%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Space",
+        "name": "UFO",
+        "dropRate": "10%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Space",
+        "name": "Yellow Atronaut",
+        "dropRate": "Tuesday: 0.05%",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Spooky",
+        "name": "Frankenstein",
+        "dropRate": "18.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Spooky",
+        "name": "Ghost",
+        "dropRate": "0.7%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Spooky",
+        "name": "Mummy",
+        "dropRate": "10.5%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Spooky",
+        "name": "Pumpkin",
+        "dropRate": "18.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Spooky",
+        "name": "Swamp Monster",
+        "dropRate": "18.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Spooky",
+        "name": "Vampire",
+        "dropRate": "18.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Spooky",
+        "name": "Werewolf",
+        "dropRate": "5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Spooky",
+        "name": "Zombie",
+        "dropRate": "18.5%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Spooky",
+        "name": "Spooky Ghost",
+        "dropRate": "Awarded",
+        "rarity": "Mystical"
+    },
+    {
+        "category": "Spooky",
+        "name": "Spooky Mummy",
+        "dropRate": "Awarded",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Spooky",
+        "name": "Spooky Pumpkin",
+        "dropRate": "Awarded",
+        "rarity": "Chroma"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Alice",
+        "dropRate": "15%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Catterpillar",
+        "dropRate": "2.5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Cheshire Cat",
+        "dropRate": "6.5%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Drink Me",
+        "dropRate": "15%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Dormouse",
+        "dropRate": "6.5%",
+        "rarity": "Rare"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Eat Me",
+        "dropRate": "15%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Wonderland",
+        "name": "King of Hearts",
+        "dropRate": "0.3%",
+        "rarity": "Legendary"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Mad Hatter",
+        "dropRate": "2.5%",
+        "rarity": "Epic"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Queen of Hearts",
+        "dropRate": "15%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Wonderland",
+        "name": "Two of Spades",
+        "dropRate": "15.2%",
+        "rarity": "Uncommon"
+    },
+    {
+        "category": "Wonderland",
+        "name": "White Rabbit",
+        "dropRate": "6.5%",
+        "rarity": "Rare"
+    }
+]
