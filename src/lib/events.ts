@@ -1,15 +1,15 @@
 /**
  * Abstract class for the publish-subscribe pattern
  */
-class Event {
+abstract class BlooketEvent {
+
     /**
      * @type {Map<number, Function>} a list of callbacks
      */
-    subscribers;
+    subscribers: Map<number, Function>;
 
     constructor() {
-        // this.subscribers = new Map();
-        throw new Error("Abstract classes cannot be instantialized");
+        this.subscribers = new Map();
     }
 
     /**
@@ -18,7 +18,7 @@ class Event {
      * @param {Function} callback the function that gets called when the event gets called
      * @returns {number} the subscriber id provided by the jenkins hash of the name field 
      */
-    subscribe(name, callback) {
+    subscribe(name: string, callback: Function): number {
         const id = jenkinsHash(name);
         this.subscribers.set(id, callback);
         return id;
@@ -29,7 +29,7 @@ class Event {
      * @param {number} id the id of the subscriber
      * @param {Function} callback the function that gets called when the event gets called
      */
-    subscribeWithId(id, callback) {
+    subscribeWithId(id: number, callback: Function): void {
         this.subscribers.set(id, callback);
     }
 
@@ -37,13 +37,14 @@ class Event {
      * Unsubscribe to the event using an id
      * @param {number} subscriberId 
      */
-    unsubscribe(subscriberId) {
+    unsubscribe(subscriberId: number): void {
         this.subscribers.delete(subscriberId)
     }
 
-    emit() {
-        throw new Error("Method 'emit()' must be implemented");
-    }
+    /**
+     * Emit the event and send it to every subscriber
+     */
+    abstract emit(data: any): void;
 }
 
 /**
@@ -51,7 +52,7 @@ class Event {
  * @param {string} str string to get the hash of
  * @returns {number} the hash result
  */
-function jenkinsHash(str) {
+function jenkinsHash(str: string): number {
     let hash = 0;
 
     for (let i = 0; i < str.length; i++) {
@@ -74,4 +75,9 @@ function jenkinsHash(str) {
     hash += hash << 15;
 
     return hash >>> 0;
+}
+
+export {
+    BlooketEvent,
+    jenkinsHash
 }

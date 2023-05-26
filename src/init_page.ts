@@ -3,7 +3,7 @@
  * @param {string} panelName the id that the panel will use
  * @param {string} headerMessage panel header's display text
  */
-function injectPanelHtml(panelName, headerMessage) {
+function injectPanelHtml(panelName: string, headerMessage: string) {
 
     let container = document.createElement("div");
     container.innerHTML = `
@@ -22,12 +22,12 @@ function injectPanelHtml(panelName, headerMessage) {
  * @param {HTMLElement!} mainDiv
  * @param {HTMLElement!} headerDiv
 */
-function makeDraggable(mainDiv, headerDiv) {
+function makeDraggable(mainDiv: HTMLElement, headerDiv: HTMLElement) {
 
-    let offsetX, offsetY;
-    let viewportWidth, viewportHeight;
+    let offsetX: number, offsetY: number;
+    let viewportWidth: number, viewportHeight: number;
 
-    headerDiv.addEventListener('mousedown', function (e) {
+    headerDiv.addEventListener('mousedown', function (e: { clientX: number; clientY: number; }) {
         // Calculate the offset between the mouse position and the top-left corner of the draggable div
         offsetX = e.clientX - mainDiv.offsetLeft;
         offsetY = e.clientY - mainDiv.offsetTop;
@@ -41,7 +41,7 @@ function makeDraggable(mainDiv, headerDiv) {
         document.addEventListener('mouseup', handleDragEnd);
     });
 
-    function handleDrag(e) {
+    function handleDrag(e: { clientX: number; clientY: number; }) {
         // Calculate the new position of the draggable div
         var newLeft = e.clientX - offsetX;
         var newTop = e.clientY - offsetY;
