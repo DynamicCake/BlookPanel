@@ -65,8 +65,9 @@ function makeDraggable(mainDiv: HTMLElement, headerDiv: HTMLElement) {
 }
 
 function shutDown(rootElement: HTMLElement, reactHandler: Function) {
-    document.removeChild(rootElement);
+    rootElement.remove();
     unhookSetState(reactHandler);
+    reactHandler().stateNode.setState({ panelInjected: false });
 }
 
 export {

@@ -10,8 +10,8 @@ class StateChangeEvent extends BlooketEvent {
     }
 
     emit(eventData: EventData): void {
-        for (let subscriber of this.subscribers) {
-            subscriber[1].call(eventData)
+        for (let [, subscriber] of this.subscribers) {
+            subscriber.call(null, eventData)
         }
     }
 
@@ -20,13 +20,8 @@ class StateChangeEvent extends BlooketEvent {
 
 interface EventData {
     before: DynamicObject,
-    after: DynamicObject
+    arguements: any,
     time: number
-}
-
-interface DiffResult {
-    type: string;
-    data: any;
 }
 
 interface DeepDiffMapper {

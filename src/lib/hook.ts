@@ -19,18 +19,17 @@ function hookSetState(reactHandler: Function, stateChangeEvent: StateChangeEvent
     if (setStateFunction !== undefined) {
         throw new Error("setState function is already hooked")
     }
-    let oldSetState = reactHandler().stateNode.setState
+    let oldSetState: Function = reactHandler().stateNode.setState
     setStateFunction = oldSetState
     reactHandler().stateNode.setState = function() {
 
         let beforeState = reactHandler().stateNode.state;
-        console.log(beforeState)
         oldSetState.call(this, ...arguments)
         stateChangeEvent.emit({
             before: beforeState,
-            after: reactHandler().stateNode.state,
+            arguements: arguments,
             time: Date.now()
-        })
+        });
     }
 }
 
@@ -46,8 +45,8 @@ function unhookSetState(reactHandler: Function) {
     reactHandler().stateNode.setState = setStateFunction;
 }
 
-function isHooked(): boolean {
-    return setStateFunction !== undefined
+function isHooked(reactHandler: Function): boolean {
+    return getReactHandler().stateNode.state.panelInjected
 }
 
 type DynamicObject = Record<string, any> 
