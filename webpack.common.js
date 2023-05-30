@@ -1,5 +1,4 @@
 const path = require('path')
-const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     entry: path.resolve(__dirname, 'src/index.ts'),
@@ -8,6 +7,11 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.svg$/,
+                exclude: /node_modules/,
+                type: 'asset/source',
+            },
             {
                 test: /\.ts$/,
                 exclude: /node_modules/,

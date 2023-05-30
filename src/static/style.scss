@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+$panel-name: "blook-panel";
+
+##{$panel-name} {
+    position: absolute;
+    background-color: #E6E6FA;
+    border: 1px solid #ccc;
+    font-family: 'Roboto', sans-serif;
+    user-select: none;
+    white-space: nowrap;
+    resize: both;
+    min-width: 150px;
+    overflow: hidden;
+
+    .#{$panel-name}-top-bar {
+        cursor: move;
+        background-color: #ccc;
+        display: flex;
+        flex-direction: row;
+        padding: 0.5rem;
+        align-items: center;
+        justify-content: space-between;
+
+        .#{$panel-name}-text {
+            font-size: 100%;
+            order: 1
+        }
+
+        .#{$panel-name}-images {
+            order: 2;
+        }
+
+        img {
+            margin-left: 50%;
+            user-select: none;
+        }
+    }
+
+    .#{$panel-name}-modules {
+        padding: 1rem;
+        background-color: white;
+        margin: 1rem;
+    }
+}
