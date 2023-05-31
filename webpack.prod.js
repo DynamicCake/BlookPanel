@@ -6,7 +6,7 @@ module.exports = merge(common, {
     mode: "production",
     output: {
         path: path.resolve(__dirname, 'out'),
-        filename: 'panel.js'
+        filename: 'panel.js' // This is to prevent ide syntax highlighting
     },
 });
 

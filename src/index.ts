@@ -13,5 +13,4 @@ panel.stateChangeEvent.subscribe("test", {
     },
     priority: EventPriority.MONITOR
 });
-
 */

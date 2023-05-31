@@ -1,11 +1,7 @@
 {
-    "games": {
-        "gold": {
-            "modules": [
-                {
-                    "path": "external_scripts/op chests.js"
-                }
-            ]
-        }
+    "modules": {
+        "play/gold": [
+            "op_chests.js"
+        ]
     }
 }

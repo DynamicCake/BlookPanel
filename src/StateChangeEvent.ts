@@ -1,5 +1,5 @@
 import { AbstractStateChangeEvent, jenkinsHash } from "./lib/BlooketEvent";
-import { Subscriber } from "./Subscriber";
+import { Subscriber } from "../Subscriber";
 import { EventPriority } from "./EventPriority";
 import { StateChangeEventData } from "./StateChangeEventData";
 
@@ -57,7 +57,11 @@ export class StateChangeEvent implements AbstractStateChangeEvent {
      * Unsubscribe to the event using an id
      * @param {number} subscriberId
      */
-    unsubscribe(subscriberId: number): void {
+    unsubscribe(subscriberId: string): void {
+        this.subscribers.delete(jenkinsHash(subscriberId));
+    }
+
+    unsubscribeWithId(subscriberId: number): void {
         this.subscribers.delete(subscriberId);
     }
 

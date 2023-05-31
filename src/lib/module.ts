@@ -4,9 +4,7 @@ abstract class PanelModule {
     abstract type: ModuleType 
     abstract name: string
 
-    constructor(panel: Panel, element: HTMLDivElement | null) {
-        throw new Error("Method not implemented.");
-    }
+    abstract init(panel: Panel, element: HTMLDivElement | null): void
 }
 
 abstract class TriggerModule extends PanelModule {
@@ -23,8 +21,8 @@ abstract class ToggleModule extends PanelModule {
 }
 
 enum ModuleType {
-    TRIGGER,
-    TOGGLE
+    TRIGGER = "trigger",
+    TOGGLE = "toggle"
 }
 
 export {

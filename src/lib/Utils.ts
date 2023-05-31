@@ -1,4 +1,6 @@
-type DynamicObject = Record<string, any>
+type DynamicObject = {
+  [key: string]: any;
+}
 
 export {
     DynamicObject

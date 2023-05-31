@@ -37,7 +37,14 @@ abstract class AbstractStateChangeEvent {
      * Unsubscribe to the event using an id
      * @param {number} subscriberId 
      */
-    abstract unsubscribe(subscriberId: number): void 
+    abstract unsubscribeWithId(subscriberId: number): void 
+
+
+    /**
+     * Unsubscribe to the event using an id
+     * @param {number} subscriberId 
+     */
+    abstract unsubscribe(subscriberId: string): void 
     
     /**
      * Emit the event and send it to every subscriber, shouldnt be called by user
@@ -68,7 +75,7 @@ enum EventPriority {
     MONITOR = 3
 }
 
-interface Subscriber {
+type Subscriber = {
     callback: (data: AbstractStateChangeEventData) => AbstractStateChangeEventData,
     priority: EventPriority,
 }

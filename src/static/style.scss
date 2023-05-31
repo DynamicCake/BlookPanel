@@ -7,14 +7,12 @@ $panel-name: "blook-panel";
     background-color: #E6E6FA;
     border: 1px solid #ccc;
     font-family: 'Roboto', sans-serif;
-    user-select: none;
     white-space: nowrap;
     resize: both;
     min-width: 150px;
     overflow: hidden;
 
     .#{$panel-name}-top-bar {
-        cursor: move;
         background-color: #ccc;
         display: flex;
         flex-direction: row;
@@ -41,5 +39,16 @@ $panel-name: "blook-panel";
         padding: 1rem;
         background-color: white;
         margin: 1rem;
+
+        .#{$panel-name}-file-input {
+            height: 100px;
+            width: 100px;
+            background-color: red;
+        }
+
+        .#{$panel-name}-hover-over {
+            background-color: green !important;
+        }
     }
+
 }

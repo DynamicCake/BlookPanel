@@ -1,13 +1,13 @@
-import { ModuleType, ToggleModule } from "../lib/module";
-import { BlookPanel } from "../BlookPanel";
+import { ModuleType, ToggleModule } from "../lib/Module";
 import { AbstractStateChangeEventData } from "../lib/BlooketEvent";
+import { Panel } from "../lib/Panel";
 
 class OpChests implements ToggleModule {
     type: ModuleType = ModuleType.TOGGLE;
     name: string = "Op Chests";
-    panel: BlookPanel;
+    panel!: Panel;
 
-    constructor(panel: BlookPanel, element: HTMLDivElement) {
+    init(panel: Panel, element: HTMLDivElement) {
         this.panel = panel;
         console.log(element);
     }
@@ -29,7 +29,7 @@ class OpChests implements ToggleModule {
         })
     }
     onDisable(): void {
-        throw new Error("Method not implemented.");
+        this.panel.stateChangeEvent.unsubscribe("opChests");
     }
 }
 

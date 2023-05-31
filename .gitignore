@@ -1,5 +1,3 @@
 /node_modules
-out/bundle.js
-out/bundle.js.map
-out/panel.js
+/out
 /source

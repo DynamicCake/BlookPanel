@@ -10,6 +10,7 @@ abstract class Panel {
     abstract minimizeButton: HTMLButtonElement
     abstract readonly blooketWindow: BlookPanelWindow
     abstract readonly applicationHook: ApplicationHook
+    abstract readonly panelName: string
 
     abstract stateChangeEvent: AbstractStateChangeEvent 
 
