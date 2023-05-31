@@ -4,15 +4,15 @@ import { ApplicationHook } from "./lib/ApplicationHook";
 
 class BlooketHook implements ApplicationHook {
 
+
     setStateFunction!: Function;
 
-    /**
-     * Hooks into the `setState` function to be able to make events
-     * @param reactHandler game's react handler
-     * @throws if the `setState` function is already hooked
-     */
+    hookOriginalSetState(reactHandler: Function): void {
+        reactHandler().stateNode.originalSetState = this.setStateFunction;
+    }
+
     hookSetState(reactHandler: Function, stateChangeEvent: StateChangeEvent) {
-        if (this.setStateFunction !== undefined) {
+        if (this.isHooked(reactHandler)) {
             throw new Error("setState function is already hooked");
         }
         let oldSetState: Function = reactHandler().stateNode.setState;
@@ -33,11 +33,6 @@ class BlooketHook implements ApplicationHook {
         };
     }
 
-    /**
-     * Unhooks the `setState` function's event
-     * @param reactHandler the handler to remove the hook from
-     * @throws if the `setState` function isn't hooked
-     */
     unhookSetState(reactHandler: Function) {
         if (this.setStateFunction === undefined) {
             throw new Error("setState function is not hooked");
@@ -46,7 +41,9 @@ class BlooketHook implements ApplicationHook {
     }
 
     isHooked(reactHandler: Function): boolean {
-        return reactHandler().stateNode.setState != this.setStateFunction;
+        const originalSetState = reactHandler().stateNode.setState
+        return originalSetState !== this.setStateFunction && this.setStateFunction !== undefined;
+
     }
 }
 

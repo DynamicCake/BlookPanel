@@ -2,23 +2,22 @@ import { BlookPanelModuleList } from "./BlookPanelModuleList";
 import { StateChangeEvent } from "./StateChangeEvent";
 import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
-import { PanelModuleList } from "./lib/PanelItems";
 import { Panel } from "./lib/Panel";
-import JSZip, { file } from "jszip";
+import JSZip from "jszip";
 import { Config } from "./lib/Config";
+import { PanelElements } from "./lib/PanelInterface";
 
 export class BlookPanel implements Panel {
-    rootElement!: HTMLDivElement;
-    topBar!: HTMLDivElement;
-    modules!: PanelModuleList;
-    closeButton!: HTMLButtonElement;
-    minimizeButton!: HTMLButtonElement;
+
+    panelElements!: PanelElements
+
     stateChangeEvent!: StateChangeEvent;
-    config!: Config
+    config: Config | undefined
 
     readonly blooketWindow: BlookPanelWindow;
     readonly applicationHook: ApplicationHook;
     readonly panelName: string;
+    private readonly pageChangeListenerId: NodeJS.Timer
 
 
     /**
@@ -35,12 +34,15 @@ export class BlookPanel implements Panel {
         this.createElements();
         this.createFilePrompt();
         this.hook();
+        this.pageChangeListenerId = this.addPageChangeListener();
     }
 
     cleanUp(rootElement: HTMLElement, reactHandler: Function, window: BlookPanelWindow) {
         rootElement.remove();
         this.applicationHook.unhookSetState(reactHandler);
+        clearInterval(this.pageChangeListenerId)
         window.isPanelInjected = false;
+
         console.log("Successfully cleaned up!");
     }
 
@@ -50,6 +52,50 @@ export class BlookPanel implements Panel {
      */
     getReactHandler(): Record<string, any> {
         return Object.values(document.querySelector('#app > div > div')!)[1].children[1]._owner;
+    }
+
+    private addPageChangeListener(): NodeJS.Timer {
+        let prevUrl = window.location.href;
+        let id = setInterval(() => {
+            const curentUrl = window.location.href;
+
+            if (curentUrl !== prevUrl) {
+                prevUrl = curentUrl;
+                if (!this.applicationHook.isHooked(this.getReactHandler)) {
+                    this.applicationHook.hookSetState(this.getReactHandler, this.stateChangeEvent);
+                    this.applicationHook.hookOriginalSetState(this.getReactHandler)
+                }
+                this.runScripts()
+
+            }
+        }, 1000)
+
+        return id;
+    }
+    private runScripts() {
+
+        let config = this.config;
+        if (config == undefined) {
+            throw new Error("Cannot load new page scripts because config isnt initialized");
+        }
+
+        let scripts = [];
+        const moduleList = config.modules[window.location.pathname];
+        if (moduleList === undefined) {
+            console.log(config.modules)
+            throw new Error(`Cannot find module list with ${window.location.pathname}`)
+        }
+        for (const path of moduleList) {
+            const script = config.fileMap[path];
+            if (script === undefined) {
+                console.error(`Cannot find script with path ${path}`);
+                continue;
+            }
+            scripts.push(script);
+        }
+
+        this.panelElements.modules.load(scripts)
+
     }
 
     private checkDomain() {
@@ -70,14 +116,13 @@ export class BlookPanel implements Panel {
     private createFilePrompt() {
         const panelName = this.panelName;
 
-        this.modules.element.innerHTML = `
+        this.panelElements.modules.element.innerHTML = `
             <div class="${panelName}-file-input"></div>
         `
 
         const fileInput: HTMLDivElement = document.querySelector(`#${panelName} .${panelName}-modules .${panelName}-file-input`)!;
 
         console.log(fileInput)
-
 
         fileInput.addEventListener("drop", (event: DragEvent) => {
             event.preventDefault();
@@ -92,42 +137,34 @@ export class BlookPanel implements Panel {
             const reader = new FileReader();
             const zip = new JSZip();
 
-            reader.onload = (e) => {
+            reader.onload = (e): void => {
                 const fileData = e.target!.result;
 
                 const decoder = new TextDecoder('utf-8');
 
                 zip.loadAsync(fileData!)
                     .then((zipData) => {
-                        let count = 0;
-                        let max = 0;
+                        const ps: Promise<void>[] = [];
+
                         zipData.forEach((relativePath: string, zipEntry) => {
                             if (!zipEntry.dir) {
-                                max++
-                                zipEntry.async('uint8array')
+                                const promise = zipEntry.async('uint8array')
                                     .then((fileContent) => {
                                         unziped[relativePath] = decoder.decode(fileContent);
-                                        count++;
                                     })
                                     .catch((error) => {
                                         fileInput.innerText = "Error: Cannot extract zip file";
                                         throw new Error(`Error extracting file: ${error}`);
                                     });
+
+                                ps.push(promise);
                             }
                         });
 
-                        const date = Date.now() + 10_000;
-                        const interval = setInterval(function() {
-                            if (date < Date.now()) {
-                                clearInterval(interval);
-                                throw new Error(`Could not complete unziping (${count}/${max}`);
-                            }
-                            if (count <= max) {
-                                loadConfig();
-                                clearInterval(interval);
-                            }
-                        }, 10);
-
+                        return Promise.all(ps);
+                    })
+                    .then(() => {
+                        loadConfig()
                     })
                     .catch((error) => {
                         fileInput.innerText = "Error: Cannot load zip file";
@@ -136,9 +173,7 @@ export class BlookPanel implements Panel {
             };
             reader.readAsArrayBuffer(file);
 
-            let panel = this;
-            function loadConfig() {
-
+            let loadConfig = () => {
                 const configName = "config.json";
                 const configString = unziped[configName];
 
@@ -149,14 +184,16 @@ export class BlookPanel implements Panel {
 
                 const configFile = JSON.parse(configString);
 
-                panel.config = {
+                this.config = {
                     fileMap: unziped,
-                    modules: configFile
+                    modules: configFile.modules
                 };
 
-                panel.modules.element.innerHTML = ""
+                this.panelElements.modules.element.innerHTML = ""
 
+                this.runScripts()
             }
+
 
         });
 
@@ -169,21 +206,21 @@ export class BlookPanel implements Panel {
         fileInput.addEventListener("dragleave", (event: DragEvent) => {
             event.preventDefault()
             fileInput.classList.remove(`${panelName}-hover-over`)
-        })
+        });
 
         fileInput.addEventListener("dragover", (event: DragEvent) => {
             event.preventDefault()
-        })
+        });
     }
 
     private createElements() {
 
-        const panelName = this.panelName;
+        const panelName = this.panelName
 
-        this.rootElement = document.createElement("div");
-        this.rootElement.id = this.panelName;
+        const rootElement = document.createElement("div");
+        rootElement.id = this.panelName;
 
-        this.rootElement.innerHTML = `
+        rootElement.innerHTML = `
             <div class="${panelName}-top-bar">
               <div class="${panelName}-text">
                 <p>Blook Panel</p>
@@ -196,41 +233,45 @@ export class BlookPanel implements Panel {
             <div class="${panelName}-modules"></div>
         `;
 
-        document.body.append(this.rootElement);
+        document.body.append(rootElement);
 
-        this.topBar = document.querySelector(`#${panelName} .${panelName}-top-bar`)!;
-        this.modules = new BlookPanelModuleList(
+        const topBar = document.querySelector(`#${panelName} .${panelName}-top-bar`)!;
+        const modules = new BlookPanelModuleList(
             this,
             document.querySelector(`#${panelName} .${panelName}-modules`)!
         )
 
 
-        this.closeButton = document.querySelector(`#${panelName} .${panelName}-top-bar .${panelName}-close`)!;
-        this.closeButton.innerHTML = "x";
-        this.minimizeButton = document.querySelector(`#${panelName} .${panelName}-top-bar .${panelName}-minimize`)!;
-        this.minimizeButton.innerHTML = "-";
+        const closeButton = document.querySelector(`#${panelName} .${panelName}-top-bar .${panelName}-close`)!;
+        closeButton.innerHTML = "x";
+        const minimizeButton = document.querySelector(`#${panelName} .${panelName}-top-bar .${panelName}-minimize`)!;
+        minimizeButton.innerHTML = "-";
+
+        this.panelElements = {
+            rootElement: rootElement,
+            topBar: topBar as HTMLDivElement,
+            modules: modules,
+            closeButton: closeButton as HTMLButtonElement,
+            minimizeButton: minimizeButton as HTMLButtonElement,
+        }
 
         this.registerEvents()
     }
 
     private registerEvents() {
-        this.makeDraggable(this.rootElement, this.topBar);
+        this.makeDraggable(this.panelElements.rootElement, this.panelElements.topBar);
 
-        this.closeButton.addEventListener('click', () => {
-            this.cleanUp(this.rootElement, this.getReactHandler, this.blooketWindow);
+        this.panelElements.closeButton.addEventListener('click', () => {
+            this.cleanUp(this.panelElements.rootElement, this.getReactHandler, this.blooketWindow);
         });
 
-
-        // this.rootElement.addEventListener("dragstart", (event) => {console.log("dragstart")})
-        // this.rootElement.addEventListener("dragend", (event) => {console.log("dragend")})
-        // this.rootElement.addEventListener("dragenter", (event) => {console.log("dragend")})
-        // this.rootElement.addEventListener("dragleave", (event) => {console.log("dragleave")})
     }
 
     private hook() {
         this.stateChangeEvent = new StateChangeEvent();
 
         this.applicationHook.hookSetState(this.getReactHandler, this.stateChangeEvent);
+        this.applicationHook.hookOriginalSetState(this.getReactHandler)
         this.blooketWindow.isPanelInjected = true;
     }
 
@@ -278,6 +319,4 @@ export class BlookPanel implements Panel {
             document.removeEventListener('mouseup', handleDragEnd);
         }
     }
-
 }
-

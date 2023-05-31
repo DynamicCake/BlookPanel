@@ -12,13 +12,12 @@ class BlookPanelModuleList implements PanelModuleList {
         this.blookPanel = blookPanel;
     }
 
-    load(paths: string[]): void {
+    load(scripts: string[]): void {
+        debugger;
         this.paths = [];
-        for (const path of paths) {
-            const script: string | null = this.blookPanel.config.fileMap[path];
-            if (script == null)
-                console.error(`Script with path ${path} does not exist`);
-            const module: PanelModule = eval(script);
+        for (const script of scripts) {
+            console.log(`Loaded ${script}`)
+            const module: PanelModule = eval(script) as PanelModule;
             
             const element = document.createElement("div");
             element.innerHTML = module.name;

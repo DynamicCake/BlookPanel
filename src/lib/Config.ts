@@ -1,6 +1,6 @@
 type Config = {
-    fileMap: {[path: string]: string}
-    modules: {[key: string]: string[]}
+    fileMap: {[filePath: string]: string}
+    modules: {[webPath: string]: string[]}
 }
 
 export {
