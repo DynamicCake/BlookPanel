@@ -1,7 +1,7 @@
 import { Panel } from "./Panel";
 
 abstract class PanelModule {
-    abstract name: string
+    abstract id: string
 
     abstract onInit(panel: Panel, element: HTMLDivElement): void
 

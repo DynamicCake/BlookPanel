@@ -1,8 +1,15 @@
-import opChests from './op chests'
+import { ConfigSchema } from '../lib/Config'
+import AllCorrect from './AllCorrect'
+import OpChests from './gold_quest/OpChests'
 
-const modules = {
-    "/play/gold/": opChests
+const Config: ConfigSchema = {
+    modules: {
+        "/play/gold": [
+            new OpChests(),
+            new AllCorrect()
+        ]
+    }
 }
 export {
-    modules
+    Config 
 }

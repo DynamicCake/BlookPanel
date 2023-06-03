@@ -3,15 +3,12 @@ import { StateChangeEvent } from "./StateChangeEvent";
 import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
 import { Panel } from "./lib/Panel";
-import { Config } from "./lib/Config";
 import { PanelElements } from "./lib/PanelInterface";
-import config from './plugins/config.json'
-import { PanelModule } from "./lib/module";
+import { Config } from "./plugins/PluginsManager";
 
 export class BlookPanel implements Panel {
 
     stateChangeEvent!: StateChangeEvent;
-    config: Config 
 
     readonly panelElements: PanelElements
     readonly blooketWindow: BlookPanelWindow;
@@ -26,7 +23,6 @@ export class BlookPanel implements Panel {
      * @throws when panel is executed in the wrong domain or is already injected
      */
     constructor(panelName: string) {
-        this.config = config
         this.panelName = panelName;
         this.blooketWindow = window as unknown as BlookPanelWindow;
 
@@ -74,36 +70,13 @@ export class BlookPanel implements Panel {
 
         return id;
     }
-    private async runScripts(): Promise<void> {
-
-        let config = this.config;
-        if (config == undefined) {
-            throw new Error("Cannot load new page scripts because config isn't initialized");
-        }
-
-        let scripts: PanelModule[] = [];
-        const moduleList = config.modules[window.location.pathname];
+    private runScripts(): void {
+        const moduleList = Config.modules[window.location.pathname];
         if (moduleList === undefined) {
-            console.warn(`Cannot find module list with ${window.location.pathname}`);
-            return;
+            console.warn(`No modules found for the path ${window.location.pathname}`);
+            return
         }
-        for (const path of moduleList) {
-            const modPath = "/src/mods/" + path
-            try {
-                // Intentional dynamic importing, if you have a better idea, please make an issue with a suggestion
-                const script = await import(modPath); 
-                scripts.push(script);
-            } catch {
-                console.error(`Cannot find script with path ${modPath} ${__dirname} ${__filename}`);
-                continue;
-            }
-        }
-        if (scripts.length === 0) {
-            console.error("No modules were loaded");
-        }
-
-        this.panelElements.modules.load(scripts)
-
+        this.panelElements.modules.load(moduleList)
     }
 
     private checkDomain() {

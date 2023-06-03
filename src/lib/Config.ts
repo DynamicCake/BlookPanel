@@ -1,7 +1,9 @@
-type Config = {
-    modules: {[webPath: string]: string[]}
+import { PanelModule } from "./module"
+
+type ConfigSchema = {
+    modules: {[webPath: string]: PanelModule[]}
 }
 
 export {
-    Config
+    ConfigSchema
 }
