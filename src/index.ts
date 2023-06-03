@@ -1,14 +1,11 @@
-import './static/style.scss'
-import { EventPriority } from "./EventPriority";
-import { StateChangeEventData } from "./StateChangeEventData";
 import { BlookPanel } from "./BlookPanel";
 
-const panel = new BlookPanel("blook-panel");
+const github = "https://github.com/DynamicCake/BlookPanel";
+try {
+    new BlookPanel("blook-panel");
+} catch (ex) {
+    console.log(`%c⚠️ An error has occurred, please report this as an issue at ${github}`, "font-size:large; color: red; text-shadow: 0.1rem 0.1rem 0 #000;");
+    console.error(ex);
+} 
 
-// panel.stateChangeEvent.subscribe("test", {
-//     callback: function (data: StateChangeEventData): StateChangeEventData {
-//         console.log(data.arguements);
-//         return data;
-//     },
-//     priority: EventPriority.MONITOR
-// });
+

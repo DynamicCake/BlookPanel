@@ -16,6 +16,7 @@ class AllCorrect implements PanelModule {
         this.toggleButton = document.createElement("button");
         this.toggleButton.innerText = "All Correct";
         element.append(this.toggleButton);
+        this.onDisable();
 
         this.toggleButton.addEventListener("click", (event) => {
             if (this.isToggled) {

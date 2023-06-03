@@ -1,3 +1,4 @@
+import './static/style.scss'
 import { BlookPanelModuleList } from "./BlookPanelModuleList";
 import { StateChangeEvent } from "./StateChangeEvent";
 import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
@@ -33,6 +34,11 @@ export class BlookPanel implements Panel {
         this.hook();
         this.pageChangeListenerId = this.addPageChangeListener();
         this.runScripts()
+
+        const github = "https://github.com/DynamicCake/BlookPanel";
+        console.log("%c💉 Blook Panel Injected!", "font-size:xx-large; color: red; text-shadow: 0.1rem 0.1rem 0 #000;")
+        console.log(`%c⭐ Please start this project at ${github}`, "font-size: x-large; color: yellow; text-shadow: 0.1rem 0.1rem 0 #000;")
+
     }
 
     cleanUp(rootElement: HTMLElement, reactHandler: Function, window: BlookPanelWindow) {
