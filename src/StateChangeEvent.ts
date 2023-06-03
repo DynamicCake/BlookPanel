@@ -1,5 +1,5 @@
 import { AbstractStateChangeEvent, jenkinsHash } from "./lib/BlooketEvent";
-import { Subscriber } from "../Subscriber";
+import { Subscriber } from "./Subscriber";
 import { EventPriority } from "./EventPriority";
 import { StateChangeEventData } from "./StateChangeEventData";
 

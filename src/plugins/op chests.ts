@@ -1,5 +1,5 @@
 import { AbstractStateChangeEventData } from "../lib/BlooketEvent";
-import { PanelModule } from "../lib/Module";
+import { PanelModule } from "../lib/module";
 import { Panel } from "../lib/Panel";
 
 class OpChests implements PanelModule {
@@ -7,7 +7,7 @@ class OpChests implements PanelModule {
     isToggled: boolean = false;
     panel!: Panel;
 
-    init(panel: Panel, element: HTMLDivElement) {
+    onInit(panel: Panel, element: HTMLDivElement) {
         this.panel = panel;
         element.innerHTML = `
             <button class="${this.name}-button">abc<button> 
@@ -26,9 +26,13 @@ class OpChests implements PanelModule {
         console.log(element);
     }
 
+    onShutdown(): void {
+        this.onDisable()
+    }
+
     onEnable(): void {
         this.panel.stateChangeEvent.quickSubscribe("opChests", (eventData: AbstractStateChangeEventData): AbstractStateChangeEventData => {
-            let args = eventData.arguements[0];
+            let args = eventData.arguments[0];
             if ("choices" in args) {
                 args.choices = [
                     { type: 'nothing', text: 'Nothing!', blook: 'Fairy' },
@@ -47,6 +51,4 @@ class OpChests implements PanelModule {
     }
 }
 
-export {
-    OpChests
-}
+export = OpChests

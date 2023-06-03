@@ -1,5 +1,5 @@
-import { EventPriority } from "./src/EventPriority";
-import { StateChangeEventData } from "./src/StateChangeEventData";
+import { StateChangeEventData } from "./StateChangeEventData";
+import { EventPriority } from "./lib/BlooketEvent";
 
 
 export interface Subscriber {

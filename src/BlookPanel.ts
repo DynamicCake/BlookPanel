@@ -3,17 +3,17 @@ import { StateChangeEvent } from "./StateChangeEvent";
 import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
 import { Panel } from "./lib/Panel";
-import JSZip from "jszip";
 import { Config } from "./lib/Config";
 import { PanelElements } from "./lib/PanelInterface";
+import config from './plugins/config.json'
+import { PanelModule } from "./lib/module";
 
 export class BlookPanel implements Panel {
 
-    panelElements!: PanelElements
-
     stateChangeEvent!: StateChangeEvent;
-    config: Config | undefined
+    config: Config 
 
+    readonly panelElements: PanelElements
     readonly blooketWindow: BlookPanelWindow;
     readonly applicationHook: ApplicationHook;
     readonly panelName: string;
@@ -26,15 +26,17 @@ export class BlookPanel implements Panel {
      * @throws when panel is executed in the wrong domain or is already injected
      */
     constructor(panelName: string) {
+        this.config = config
         this.panelName = panelName;
         this.blooketWindow = window as unknown as BlookPanelWindow;
 
         this.applicationHook = new BlooketHook();
         this.checkDomain();
-        this.createElements();
-        this.createFilePrompt();
+        this.panelElements = this.createElements();
+        this.registerEvents()
         this.hook();
         this.pageChangeListenerId = this.addPageChangeListener();
+        this.runScripts()
     }
 
     cleanUp(rootElement: HTMLElement, reactHandler: Function, window: BlookPanelWindow) {
@@ -57,10 +59,10 @@ export class BlookPanel implements Panel {
     private addPageChangeListener(): NodeJS.Timer {
         let prevUrl = window.location.href;
         let id = setInterval(() => {
-            const curentUrl = window.location.href;
+            const currentUrl = window.location.href;
 
-            if (curentUrl !== prevUrl) {
-                prevUrl = curentUrl;
+            if (currentUrl !== prevUrl) {
+                prevUrl = currentUrl;
                 if (!this.applicationHook.isHooked(this.getReactHandler)) {
                     this.applicationHook.hookSetState(this.getReactHandler, this.stateChangeEvent);
                     this.applicationHook.hookOriginalSetState(this.getReactHandler)
@@ -72,26 +74,32 @@ export class BlookPanel implements Panel {
 
         return id;
     }
-    private runScripts() {
+    private async runScripts(): Promise<void> {
 
         let config = this.config;
         if (config == undefined) {
-            throw new Error("Cannot load new page scripts because config isnt initialized");
+            throw new Error("Cannot load new page scripts because config isn't initialized");
         }
 
-        let scripts = [];
+        let scripts: PanelModule[] = [];
         const moduleList = config.modules[window.location.pathname];
         if (moduleList === undefined) {
-            console.log(config.modules)
-            throw new Error(`Cannot find module list with ${window.location.pathname}`)
+            console.warn(`Cannot find module list with ${window.location.pathname}`);
+            return;
         }
         for (const path of moduleList) {
-            const script = config.fileMap[path];
-            if (script === undefined) {
-                console.error(`Cannot find script with path ${path}`);
+            const modPath = "/src/mods/" + path
+            try {
+                // Intentional dynamic importing, if you have a better idea, please make an issue with a suggestion
+                const script = await import(modPath); 
+                scripts.push(script);
+            } catch {
+                console.error(`Cannot find script with path ${modPath} ${__dirname} ${__filename}`);
                 continue;
             }
-            scripts.push(script);
+        }
+        if (scripts.length === 0) {
+            console.error("No modules were loaded");
         }
 
         this.panelElements.modules.load(scripts)
@@ -102,7 +110,7 @@ export class BlookPanel implements Panel {
 
         if (!/blooket\.com$/.test(window.location.hostname)) {
             alert("Please use this panel on blooket.com");
-            throw new Error("Cannot initialize if hostname isnt blooket.com");
+            throw new Error("Cannot initialize if hostname isn't blooket.com");
         }
 
         // Check if panel injected
@@ -113,107 +121,7 @@ export class BlookPanel implements Panel {
 
     }
 
-    private createFilePrompt() {
-        const panelName = this.panelName;
-
-        this.panelElements.modules.element.innerHTML = `
-            <div class="${panelName}-file-input"></div>
-        `
-
-        const fileInput: HTMLDivElement = document.querySelector(`#${panelName} .${panelName}-modules .${panelName}-file-input`)!;
-
-        console.log(fileInput)
-
-        fileInput.addEventListener("drop", (event: DragEvent) => {
-            event.preventDefault();
-
-            fileInput.classList.remove(`${panelName}-hover-over`)
-
-            // Access the dropped files
-            const file = event.dataTransfer!.files[0];
-
-            let unziped: { [path: string]: string } = {};
-
-            const reader = new FileReader();
-            const zip = new JSZip();
-
-            reader.onload = (e): void => {
-                const fileData = e.target!.result;
-
-                const decoder = new TextDecoder('utf-8');
-
-                zip.loadAsync(fileData!)
-                    .then((zipData) => {
-                        const ps: Promise<void>[] = [];
-
-                        zipData.forEach((relativePath: string, zipEntry) => {
-                            if (!zipEntry.dir) {
-                                const promise = zipEntry.async('uint8array')
-                                    .then((fileContent) => {
-                                        unziped[relativePath] = decoder.decode(fileContent);
-                                    })
-                                    .catch((error) => {
-                                        fileInput.innerText = "Error: Cannot extract zip file";
-                                        throw new Error(`Error extracting file: ${error}`);
-                                    });
-
-                                ps.push(promise);
-                            }
-                        });
-
-                        return Promise.all(ps);
-                    })
-                    .then(() => {
-                        loadConfig()
-                    })
-                    .catch((error) => {
-                        fileInput.innerText = "Error: Cannot load zip file";
-                        throw new Error(`Error loading ZIP file: ${error}`);
-                    });
-            };
-            reader.readAsArrayBuffer(file);
-
-            let loadConfig = () => {
-                const configName = "config.json";
-                const configString = unziped[configName];
-
-                if (configString == null) {
-                    fileInput.innerHTML = `Error: ${configName} not found`;
-                    throw new Error(`Cannot find ${configName} ${unziped}`);
-                }
-
-                const configFile = JSON.parse(configString);
-
-                this.config = {
-                    fileMap: unziped,
-                    modules: configFile.modules
-                };
-
-                this.panelElements.modules.element.innerHTML = ""
-
-                this.runScripts()
-            }
-
-
-        });
-
-
-        fileInput.addEventListener("dragenter", (event: DragEvent) => {
-            event.preventDefault()
-            fileInput.classList.add(`${panelName}-hover-over`)
-        });
-
-        fileInput.addEventListener("dragleave", (event: DragEvent) => {
-            event.preventDefault()
-            fileInput.classList.remove(`${panelName}-hover-over`)
-        });
-
-        fileInput.addEventListener("dragover", (event: DragEvent) => {
-            event.preventDefault()
-        });
-    }
-
-    private createElements() {
+    private createElements(): PanelElements {
 
         const panelName = this.panelName
 
@@ -247,7 +155,8 @@ export class BlookPanel implements Panel {
         const minimizeButton = document.querySelector(`#${panelName} .${panelName}-top-bar .${panelName}-minimize`)!;
         minimizeButton.innerHTML = "-";
 
-        this.panelElements = {
+
+        return {
             rootElement: rootElement,
             topBar: topBar as HTMLDivElement,
             modules: modules,
@@ -255,7 +164,6 @@ export class BlookPanel implements Panel {
             minimizeButton: minimizeButton as HTMLButtonElement,
         }
 
-        this.registerEvents()
     }
 
     private registerEvents() {

@@ -1,5 +1,5 @@
 type DynamicObject = {
-  [key: string]: any;
+    [key: string]: any;
 }
 
 export {

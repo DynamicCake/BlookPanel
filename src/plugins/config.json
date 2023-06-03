@@ -1,6 +1,6 @@
 {
     "modules": {
-        "play/gold": [
+        "/play/gold": [
             "op_chests.js"
         ]
     }

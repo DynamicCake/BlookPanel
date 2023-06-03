@@ -1,6 +1,10 @@
 const path = require('path')
 
 module.exports = {
+    context: __dirname,
+    node: {
+        __filename: true
+    },
     entry: path.resolve(__dirname, 'src/index.ts'),
     resolve: {
         extensions: ["", ".webpack.js", ".web.js", ".js", ".ts"]
@@ -26,7 +30,7 @@ module.exports = {
     },
     externals: {
         './lib/': 'library'
-    }
+    },
     /*optimization: {
         minimize: true,
         minimizer: [

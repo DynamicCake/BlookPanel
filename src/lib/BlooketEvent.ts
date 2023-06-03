@@ -47,7 +47,7 @@ abstract class AbstractStateChangeEvent {
     abstract unsubscribe(subscriberId: string): void 
     
     /**
-     * Emit the event and send it to every subscriber, shouldnt be called by user
+     * Emit the event and send it to every subscriber, should not be called by user
      * @param {AbstractStateChangeEventData} data event data
      * @returns {AbstractStateChangeEventData} modified event data
      */
@@ -56,12 +56,12 @@ abstract class AbstractStateChangeEvent {
 }
 
 /**
- * I appoligize for this naming, please use an import alias lol
+ * I apologize for this naming, please use an import alias lol
  */
 abstract class AbstractStateChangeEventData {
     abstract readonly before: DynamicObject;
-    abstract readonly originalArguements: IArguments;
-    abstract arguements: IArguments;
+    abstract readonly originalArguments: IArguments;
+    abstract arguments: IArguments;
     abstract readonly time: number;
     abstract isCanceled: boolean;
 }
