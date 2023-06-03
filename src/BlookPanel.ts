@@ -37,7 +37,7 @@ export class BlookPanel implements Panel {
 
         const github = "https://github.com/DynamicCake/BlookPanel";
         console.log("%c💉 Blook Panel Injected!", "font-size:xx-large; color: red; text-shadow: 0.1rem 0.1rem 0 #000;")
-        console.log(`%c⭐ Please start this project at ${github}`, "font-size: x-large; color: yellow; text-shadow: 0.1rem 0.1rem 0 #000;")
+        console.log(`%c⭐ Please star this project at ${github}`, "font-size: x-large; color: yellow; text-shadow: 0.1rem 0.1rem 0 #000;")
 
     }
 
