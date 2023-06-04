@@ -28,9 +28,11 @@ module.exports = {
             },
         ],
     },
+    /*
     externals: {
         './lib/': 'library'
     },
+    */
     /*optimization: {
         minimize: true,
         minimizer: [

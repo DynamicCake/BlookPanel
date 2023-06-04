@@ -10,12 +10,14 @@ import { Config } from "./plugins/PluginsManager";
 export class BlookPanel implements Panel {
 
     stateChangeEvent!: StateChangeEvent;
+    isHidden: boolean;
 
     readonly panelElements: PanelElements
     readonly blooketWindow: BlookPanelWindow;
     readonly applicationHook: ApplicationHook;
     readonly panelName: string;
     private readonly pageChangeListenerId: NodeJS.Timer
+    
 
 
     /**
@@ -24,6 +26,7 @@ export class BlookPanel implements Panel {
      * @throws when panel is executed in the wrong domain or is already injected
      */
     constructor(panelName: string) {
+        this.isHidden = false;
         this.panelName = panelName;
         this.blooketWindow = window as unknown as BlookPanelWindow;
 
@@ -77,11 +80,14 @@ export class BlookPanel implements Panel {
         return id;
     }
     private runScripts(): void {
-        const moduleList = Config.modules[window.location.pathname];
+        let moduleList = Config.modules[window.location.pathname];
         if (moduleList === undefined) {
             console.warn(`No modules found for the path ${window.location.pathname}`);
-            return
+            moduleList = [];
+        } else {
+            console.log("Found scripts!")
         }
+        this.panelElements.modules.unload()
         this.panelElements.modules.load(moduleList)
     }
 
@@ -152,6 +158,35 @@ export class BlookPanel implements Panel {
             this.cleanUp(this.panelElements.rootElement, this.getReactHandler, this.blooketWindow);
         });
 
+        this.panelElements.minimizeButton.addEventListener('click', () => {
+            this.toggleShow();
+        })
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === Config.hideKey)
+                this.toggleShow();
+        });
+
+
+        /*
+        this.panelElements.rootElement.addEventListener('transitionend', () => {
+            if (this.isHidden) {
+                this.panelElements.rootElement.style.display = "none";
+            } else {
+                this.panelElements.rootElement.style.display = "block";
+            }
+        });
+        */
+    }
+
+    private toggleShow() {
+        if (this.isHidden) {
+            this.panelElements.rootElement.style.opacity = "1";
+            this.isHidden = false;
+        } else {
+            this.panelElements.rootElement.style.opacity = "0"
+            this.isHidden = true;
+        }
     }
 
     private hook() {

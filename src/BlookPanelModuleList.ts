@@ -13,11 +13,15 @@ class BlookPanelModuleList implements PanelModuleList {
     }
 
     unload() {
+        if (this.modules === undefined) 
+            return;
         this.modules.forEach(module => {
             if (module !== undefined)
                 module.onShutdown();
         });
+        this.element.innerHTML = "";
         this.modules = [];
+
     }
 
     load(scripts: PanelModule[]): void {
@@ -28,7 +32,6 @@ class BlookPanelModuleList implements PanelModuleList {
             this.modules[i] = module;
             this.element.append(element)
         })
-
     }
 
 }

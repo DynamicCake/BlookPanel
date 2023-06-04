@@ -1,4 +1,4 @@
-import { AbstractStateChangeEventData as EventData } from "./lib/BlooketEvent";
+import { EventData } from "./lib/BlooketEvent";
 import { DynamicObject } from "./lib/Utils";
 
 export class StateChangeEventData implements EventData {

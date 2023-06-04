@@ -1,4 +1,4 @@
-import { AbstractStateChangeEventData } from "../../lib/BlooketEvent";
+import { EventData } from "../../lib/BlooketEvent";
 import { Panel } from "../../lib/Panel";
 import { PanelModule } from "../../lib/module";
 
@@ -26,6 +26,8 @@ class OpChests implements PanelModule {
                 this.isToggled = true;
             }
         });
+
+        
     }
 
     onShutdown(): void {
@@ -34,29 +36,10 @@ class OpChests implements PanelModule {
 
     onEnable(): void {
         this.toggleButton.style.color = "green"
-        this.panel.stateChangeEvent.quickSubscribe(this.id, (eventData: AbstractStateChangeEventData): AbstractStateChangeEventData => {
+        this.panel.stateChangeEvent.quickSubscribe(this.id, (eventData: EventData): EventData => {
             let args = eventData.arguments[0];
             if ("choices" in args) {
-                args.choices = [ // I am going to borrow this CrazyH
-                    {
-                        "type": "multiply",
-                        "val": 100,
-                        "text": "Multiply Gold!",
-                        "blook": "Rainbow Astronaut"
-                    },
-                    {
-                        "type": "swap",
-                        "text": "SWAP!",
-                        "blook": "Spooky Ghost"
-                    },
-                    {
-                        "type": "gold",
-                        "val": 1000000,
-                        "text": "+1M Gold",
-                        "blook": "Tim the Alien"
-
-                    }
-                ];
+                this.setChoices(args);
             };
 
             return eventData;
@@ -65,6 +48,29 @@ class OpChests implements PanelModule {
     onDisable(): void {
         this.toggleButton.style.color = "red"
         this.panel.stateChangeEvent.unsubscribe(this.id);
+    }
+    setChoices(args: any) {
+
+        args.choices = [ // I am going to borrow this CrazyH
+            {
+                "type": "multiply",
+                "val": 100,
+                "text": "Multiply Gold!",
+                "blook": "Rainbow Astronaut"
+            },
+            {
+                "type": "swap",
+                "text": "SWAP!",
+                "blook": "Spooky Ghost"
+            },
+            {
+                "type": "gold",
+                "val": 1000000,
+                "text": "+1M Gold",
+                "blook": "Tim the Alien"
+
+            }
+        ];
     }
 }
 

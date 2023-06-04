@@ -112,7 +112,7 @@ function jenkinsHash(str: string): number {
 
 export {
     AbstractStateChangeEvent ,
-    AbstractStateChangeEventData,
+    AbstractStateChangeEventData as EventData, 
     EventPriority,
     jenkinsHash
 }
