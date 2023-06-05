@@ -1,7 +1,8 @@
-## NOTE: This project is in beta, releases are not available, if you want to use this, you are welcome to build it yourself
-
 # What is BlookPanel?
-BlookPanel is an open source panel that is meant to be used on the [Blooket website](https://blooket.com). This panel has a simple API which makes it easier to make plugins for it.
+BlookPanel is an open source panel that is meant to be used on the [Blooket website](https://blooket.com). This panel has a simple API which makes it easier to make plugins for it and some demonstration modules.
+
+# How to use
+Right now the modules are for demonstration purposes and if you want a full fledged panel go [here](https://github.com/DynamicCake/BlookPanel-Blooket-Cheats). If you want to make some modules for the panel, you can find a tutorial [here](/docs/HelloWorldTutorial.md)
 
 
 # Disclaimer 

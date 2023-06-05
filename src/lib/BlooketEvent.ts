@@ -56,7 +56,7 @@ abstract class AbstractStateChangeEvent {
 }
 
 /**
- * I apologize for this naming, please use an import alias lol
+ * Data for the state change event data, I apologize for this naming
  */
 abstract class AbstractStateChangeEventData {
     abstract readonly before: DynamicObject;

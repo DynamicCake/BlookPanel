@@ -2,6 +2,9 @@ import { Panel } from "../../lib/Panel";
 import { PanelModule } from "../../lib/module";
 import blooks from '../static/Blooks.json'
 
+/**
+ * Note: There is a better method of doing this, it can be found in DynamicCake/BlookPanel-Blooket-Cheats
+ */
 class UnlockAll implements PanelModule {
     id: string = "UnlockAll";
     onInit(panel: Panel, element: HTMLDivElement): void {

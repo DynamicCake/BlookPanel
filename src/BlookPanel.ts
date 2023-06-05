@@ -5,7 +5,7 @@ import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
 import { Panel } from "./lib/Panel";
 import { PanelElements } from "./lib/PanelInterface";
-import { Config } from "./plugins/PluginsManager";
+import { Config } from "./plugins/PluginManager";
 
 export class BlookPanel implements Panel {
 
@@ -79,7 +79,11 @@ export class BlookPanel implements Panel {
 
         return id;
     }
+
     private runScripts(): void {
+        if (Config.version !== Panel.version) {
+            throw new Error(`Config version is ${Config.version} but BlookPanel version is ${Panel.version}`)
+        }
         let moduleList = Config.modules[window.location.pathname];
         if (moduleList === undefined) {
             console.warn(`No modules found for the path ${window.location.pathname}`);
@@ -168,7 +172,6 @@ export class BlookPanel implements Panel {
         });
 
 
-        /*
         this.panelElements.rootElement.addEventListener('transitionend', () => {
             if (this.isHidden) {
                 this.panelElements.rootElement.style.display = "none";
@@ -176,7 +179,6 @@ export class BlookPanel implements Panel {
                 this.panelElements.rootElement.style.display = "block";
             }
         });
-        */
     }
 
     private toggleShow() {

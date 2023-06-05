@@ -19,7 +19,7 @@ class BlooketHook implements ApplicationHook {
         this.setStateFunction = oldSetState;
         reactHandler().stateNode.setState = function () {
 
-            let result = stateChangeEvent.emit(
+            const result = stateChangeEvent.emit(
                 new StateChangeEventData(
                     reactHandler().stateNode.state,
                     arguments,
