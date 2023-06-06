@@ -1,5 +1,5 @@
 import { Panel } from "./Panel";
-import { PanelModule } from "./module"
+import { PanelModule } from "./PanelModule"
 
 abstract class PanelModuleList {
     abstract element: HTMLDivElement

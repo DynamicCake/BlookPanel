@@ -1,9 +1,10 @@
-import { PanelModule } from "./module"
+import { PanelModule } from "./PanelModule"
 
 type ConfigSchema = {
     version: string,
     hideKey: string,
-    modules: {[webPath: string]: PanelModule[]}
+    onLoadLog?: boolean,
+    modules: {[webPath: string]: PanelModule[]} | [RegExp | string, PanelModule[]][]
 }
 
 export {

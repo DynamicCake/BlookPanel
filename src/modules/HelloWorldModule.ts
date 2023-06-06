@@ -1,6 +1,6 @@
 import { EventData, EventPriority } from "../lib/BlooketEvent";
 import { Panel } from "../lib/Panel";
-import { PanelModule } from "../lib/module";
+import { PanelModule } from "../lib/PanelModule";
 
 class HelloWorldModule implements PanelModule {
     // A preferably unique id

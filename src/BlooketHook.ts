@@ -28,7 +28,7 @@ class BlooketHook implements ApplicationHook {
             );
 
             if (!result.isCanceled)
-                oldSetState.call(this, ...result.arguments);
+                oldSetState.apply(this, result.arguments);
 
         };
     }

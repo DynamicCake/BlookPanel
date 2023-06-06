@@ -5,7 +5,8 @@ import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
 import { Panel } from "./lib/Panel";
 import { PanelElements } from "./lib/PanelInterface";
-import { Config } from "./plugins/PluginManager";
+import { Config } from "./modules/ModuleManager";
+import { PanelModule } from './lib/PanelModule';
 
 export class BlookPanel implements Panel {
 
@@ -84,15 +85,39 @@ export class BlookPanel implements Panel {
         if (Config.version !== Panel.version) {
             throw new Error(`Config version is ${Config.version} but BlookPanel version is ${Panel.version}`)
         }
-        let moduleList = Config.modules[window.location.pathname];
-        if (moduleList === undefined) {
-            console.warn(`No modules found for the path ${window.location.pathname}`);
-            moduleList = [];
+        const modules = Config.modules;
+        let moduleList: PanelModule[] = [];
+        const location = window.location.pathname;
+        if (Array.isArray(Config.modules)) {
+            for (let [check, panelModules] of (modules as [RegExp | string, PanelModule[]][])) {
+                if (check instanceof RegExp) {
+                    if (check.test(location)) {
+                        moduleList.push.apply(moduleList, panelModules)
+                    }
+                } else if (typeof check === "string") {
+                    console.log(check, location);
+                    if (check === location) {
+                        moduleList.push.apply(moduleList, panelModules)
+                    }
+                } else {
+                    console.error(check);
+                    throw new TypeError(`Somehow, check is not type Regex or string`);
+                }
+            }
+        } else if (typeof modules === "object") {
+            moduleList = (modules as {[webPath: string]: PanelModule[]})[location];
         } else {
-            console.log("Found scripts!")
+            throw new TypeError("Somehow, Config.modules is not an object or an array");
         }
-        this.panelElements.modules.unload()
-        this.panelElements.modules.load(moduleList)
+        if (moduleList.length === 0) {
+            console.warn(`No modules found for the path ${location}`);
+            return;
+        } else {
+            console.log("Found scripts!");
+        }
+
+        this.panelElements.modules.unload();
+        this.panelElements.modules.load(moduleList);
     }
 
     private checkDomain() {
@@ -170,23 +195,14 @@ export class BlookPanel implements Panel {
             if (event.key === Config.hideKey)
                 this.toggleShow();
         });
-
-
-        this.panelElements.rootElement.addEventListener('transitionend', () => {
-            if (this.isHidden) {
-                this.panelElements.rootElement.style.display = "none";
-            } else {
-                this.panelElements.rootElement.style.display = "block";
-            }
-        });
     }
 
     private toggleShow() {
         if (this.isHidden) {
-            this.panelElements.rootElement.style.opacity = "1";
+            this.panelElements.rootElement.style.display = "block";
             this.isHidden = false;
         } else {
-            this.panelElements.rootElement.style.opacity = "0"
+            this.panelElements.rootElement.style.display = "none";
             this.isHidden = true;
         }
     }

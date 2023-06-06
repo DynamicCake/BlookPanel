@@ -3,7 +3,7 @@ import { ApplicationHook, BlookPanelWindow } from "./ApplicationHook"
 import { PanelElements } from "./PanelInterface"
 
 abstract class Panel {
-    static readonly version: string = "1.0";
+    static readonly version: string = "1.1";
     abstract panelElements: PanelElements;
 
     abstract readonly blooketWindow: BlookPanelWindow;

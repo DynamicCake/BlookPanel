@@ -26,7 +26,7 @@ abstract class ApplicationHook {
 
     /**
      * Checks if the setState function has been patched
-     * @param reactHandler the hander to check if there is a hook
+     * @param reactHandler the handler to check if there is a hook
      */
     abstract isHooked(reactHandler: Function): boolean 
 

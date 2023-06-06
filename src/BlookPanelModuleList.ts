@@ -1,6 +1,7 @@
 import { BlookPanel } from "./BlookPanel";
 import { PanelModuleList } from "./lib/PanelItems";
-import { PanelModule } from "./lib/module";
+import { PanelModule } from "./lib/PanelModule";
+import { Config } from "./modules/ModuleManager";
 
 class BlookPanelModuleList implements PanelModuleList {
     element: HTMLDivElement;
@@ -26,12 +27,18 @@ class BlookPanelModuleList implements PanelModuleList {
 
     load(scripts: PanelModule[]): void {
         this.modules = [];
+        console.log(scripts)
         scripts.map((module, i) => {
             const element = document.createElement("div");
             module.onInit(this.blookPanel, element);
+                console.log(`Loaded module ${module.id}`);
+            if (Config.onLoadLog !== undefined) {
+            }
             this.modules[i] = module;
             this.element.append(element)
-        })
+            
+        });
+        console.log(this.modules)
     }
 
 }

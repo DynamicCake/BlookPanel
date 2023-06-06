@@ -1,6 +1,6 @@
 import { EventData } from "../../lib/BlooketEvent";
 import { Panel } from "../../lib/Panel";
-import { PanelModule } from "../../lib/module";
+import { PanelModule } from "../../lib/PanelModule";
 
 class AllCorrect implements PanelModule {
     id: string = "AllCorrect";

@@ -9,22 +9,29 @@ import UnlockAll from './lobby/UnlockAll'
  * The config file that gets loaded by the loader 
  */
 const Config: ConfigSchema = {
-    version: "1.0",
+    version: "1.1",
     hideKey: "Escape",
-    modules: {
-        "/play": [
-            new HelloWorldModule() // Initialize our module
+    onLoadLog: true,
+    modules: [
+        [
+            /^\/play/, [
+                new HelloWorldModule(),
+            ]
         ],
-        "/play/gold": [
-            new AllCorrect(),
-            new OpChests(),
-            new SetGold()
+        [
+            "/play/gold", [
+                new AllCorrect(),
+                new OpChests(),
+                new SetGold()
+            ]
         ],
-        "/play/lobby": [
-            new UnlockAll()
-        ],
-    }
+        [
+            "/play/lobby", [
+                new UnlockAll()
+            ]
+        ]
+    ]
 }
 export {
-    Config 
+    Config
 }

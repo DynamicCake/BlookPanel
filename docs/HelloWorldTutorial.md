@@ -102,13 +102,21 @@ export = HelloWorldModule;
 Then, we export and register this module in `ModuleManager.ts` 
 ```ts
 const Config: ConfigSchema = {
-    version: "1.0",
+    version: "1.1",
     hideKey: "Escape",
     modules: {
-        "/play/lobby": [
+        "/play/lobby": [ // Will only work in the lobby
             new HelloWorldModule() // Initialize our module
         ]
-    }
+    },
+    // OR
+    modules: [
+        [
+            /^\/play/, [ // Will work in every game
+                new HelloWorldModule(),
+            ]
+        ],
+    ]
 }
 
 export {
