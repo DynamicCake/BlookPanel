@@ -21,7 +21,6 @@ class SetGold implements PanelModule {
                 return;
             }
 
-
             props.liveGameController.setVal({
                 path: "c/".concat(props.client.name),
                 val: {

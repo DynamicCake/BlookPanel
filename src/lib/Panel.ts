@@ -1,16 +1,14 @@
-import { AbstractStateChangeEvent } from "./BlooketEvent"
+import { AbstractFunctionCallEvent } from "./BlooketEvent"
 import { ApplicationHook, BlookPanelWindow } from "./ApplicationHook"
 import { PanelElements } from "./PanelInterface"
 
 abstract class Panel {
-    static readonly version: string = "1.1";
+    static readonly version: string = "2.0-alpha";
     abstract panelElements: PanelElements;
 
     abstract readonly blooketWindow: BlookPanelWindow;
     abstract readonly applicationHook: ApplicationHook;
     abstract readonly panelName: string;
-
-    abstract stateChangeEvent: AbstractStateChangeEvent;
 
     /**
      * Shuts down and cleans up the panel, a module shouldn't need to call this

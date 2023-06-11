@@ -1,19 +1,20 @@
-import { AbstractStateChangeEvent, jenkinsHash } from "./lib/BlooketEvent";
-import { Subscriber } from "./Subscriber";
+import { AbstractFunctionCallEvent, Subscriber, jenkinsHash } from "./lib/BlooketEvent";
 import { EventPriority } from "./EventPriority";
 import { StateChangeEventData } from "./StateChangeEventData";
 
 /**
  * Abstract class for the publish-subscribe pattern
  */
-export class StateChangeEvent implements AbstractStateChangeEvent {
+export class FunctionCallEvent implements AbstractFunctionCallEvent {
 
     /**
      * @type {Map<number, Subscriber>} a list of callbacks
      */
     subscribers: Map<number, Subscriber>;
+    originalFunction: Function;
 
-    constructor() {
+    constructor(originalFunction: Function) {
+        this.originalFunction = originalFunction;
         this.subscribers = new Map();
     }
 
@@ -53,15 +54,7 @@ export class StateChangeEvent implements AbstractStateChangeEvent {
         this.subscribers.set(id, subscriberData);
     }
 
-    /**
-     * Unsubscribe to the event using an id
-     * @param {number} subscriberId
-     */
-    unsubscribe(subscriberId: string): void {
-        this.subscribers.delete(jenkinsHash(subscriberId));
-    }
-
-    unsubscribeWithId(subscriberId: number): void {
+    unsubscribe(subscriberId: number): void {
         this.subscribers.delete(subscriberId);
     }
 

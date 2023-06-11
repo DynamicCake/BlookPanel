@@ -1,9 +1,10 @@
-import { DynamicObject } from "./Utils";
 
 /**
  * Abstract class for the the blooket state change event 
  */
-abstract class AbstractStateChangeEvent {
+abstract class AbstractFunctionCallEvent {
+
+    abstract originalFunction: Function;
 
     /**
      * @type {Map<number, Subscriber>} a list of callbacks
@@ -19,12 +20,12 @@ abstract class AbstractStateChangeEvent {
     abstract subscribe(name: string, subscriberData: Subscriber): number 
 
     /**
-     * Subscribe to the event using a string and a callback
+     * Subscribe to the event using a string and a callback, used for testing
      * @param {string} name the name of the subscriber that will be used to create a hash
      * @param {Subscriber} subscriberData data of the subscriber
      * @returns {number} the subscriber id provided by the jenkins hash of the name field 
      */
-    abstract quickSubscribe(name: string, subscriberData: (data: AbstractStateChangeEventData) => AbstractStateChangeEventData): number
+    abstract quickSubscribe(name: string, subscriberData: (data: AbstractFunctionCallEventData) => AbstractFunctionCallEventData): number
 
     /**
      * Subscribe to the event using an id
@@ -37,29 +38,18 @@ abstract class AbstractStateChangeEvent {
      * Unsubscribe to the event using an id
      * @param {number} subscriberId 
      */
-    abstract unsubscribeWithId(subscriberId: number): void 
-
-
-    /**
-     * Unsubscribe to the event using an id
-     * @param {number} subscriberId 
-     */
-    abstract unsubscribe(subscriberId: string): void 
+    abstract unsubscribe(subscriberId: number): void 
     
     /**
      * Emit the event and send it to every subscriber, should not be called by user
-     * @param {AbstractStateChangeEventData} data event data
-     * @returns {AbstractStateChangeEventData} modified event data
+     * @param {AbstractFunctionCallEventData} data event data
+     * @returns {AbstractFunctionCallEventData} modified event data
      */
-    abstract emit(data: AbstractStateChangeEventData): AbstractStateChangeEventData
+    abstract emit(data: AbstractFunctionCallEventData): AbstractFunctionCallEventData
     
 }
 
-/**
- * Data for the state change event data, I apologize for this naming
- */
-abstract class AbstractStateChangeEventData {
-    abstract readonly before: DynamicObject;
+abstract class AbstractFunctionCallEventData {
     abstract readonly originalArguments: IArguments;
     abstract arguments: IArguments;
     abstract readonly time: number;
@@ -76,7 +66,7 @@ enum EventPriority {
 }
 
 type Subscriber = {
-    callback: (data: AbstractStateChangeEventData) => AbstractStateChangeEventData,
+    callback: (data: AbstractFunctionCallEventData) => AbstractFunctionCallEventData,
     priority: EventPriority,
 }
 
@@ -111,8 +101,9 @@ function jenkinsHash(str: string): number {
 }
 
 export {
-    AbstractStateChangeEvent ,
-    AbstractStateChangeEventData as EventData, 
+    AbstractFunctionCallEvent ,
+    AbstractFunctionCallEventData as EventData, 
     EventPriority,
+    Subscriber,
     jenkinsHash
 }

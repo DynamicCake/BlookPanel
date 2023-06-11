@@ -1,6 +1,6 @@
 import './static/style.scss'
 import { BlookPanelModuleList } from "./BlookPanelModuleList";
-import { StateChangeEvent } from "./StateChangeEvent";
+import { FunctionCallEvent } from "./StateChangeEvent";
 import { ApplicationHook, BlookPanelWindow } from "./lib/ApplicationHook";
 import { BlooketHook } from "./BlooketHook";
 import { Panel } from "./lib/Panel";
@@ -10,7 +10,6 @@ import { PanelModule } from './lib/PanelModule';
 
 export class BlookPanel implements Panel {
 
-    stateChangeEvent!: StateChangeEvent;
     isHidden: boolean;
 
     readonly panelElements: PanelElements
@@ -31,7 +30,7 @@ export class BlookPanel implements Panel {
         this.panelName = panelName;
         this.blooketWindow = window as unknown as BlookPanelWindow;
 
-        this.applicationHook = new BlooketHook();
+        this.applicationHook = new BlooketHook(this);
         this.checkDomain();
         this.panelElements = this.createElements();
         this.registerEvents()
@@ -47,7 +46,7 @@ export class BlookPanel implements Panel {
 
     cleanUp(rootElement: HTMLElement, reactHandler: Function, window: BlookPanelWindow) {
         rootElement.remove();
-        this.applicationHook.unhookSetState(reactHandler);
+        this.applicationHook.cleanUp();
         clearInterval(this.pageChangeListenerId)
         window.isPanelInjected = false;
 
@@ -69,12 +68,7 @@ export class BlookPanel implements Panel {
 
             if (currentUrl !== prevUrl) {
                 prevUrl = currentUrl;
-                if (!this.applicationHook.isHooked(this.getReactHandler)) {
-                    this.applicationHook.hookSetState(this.getReactHandler, this.stateChangeEvent);
-                    this.applicationHook.hookOriginalSetState(this.getReactHandler)
-                }
                 this.runScripts()
-
             }
         }, 1000)
 
@@ -208,10 +202,6 @@ export class BlookPanel implements Panel {
     }
 
     private hook() {
-        this.stateChangeEvent = new StateChangeEvent();
-
-        this.applicationHook.hookSetState(this.getReactHandler, this.stateChangeEvent);
-        this.applicationHook.hookOriginalSetState(this.getReactHandler)
         this.blooketWindow.isPanelInjected = true;
     }
 
