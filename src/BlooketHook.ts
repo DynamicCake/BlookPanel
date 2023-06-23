@@ -1,87 +1,50 @@
-import { FunctionCallEvent } from "./StateChangeEvent";
 import { StateChangeEventData } from "./StateChangeEventData";
+import { StateChangeEvent } from "./StateChangeEvent";
 import { ApplicationHook } from "./lib/ApplicationHook";
-import { AbstractFunctionCallEvent } from "./lib/BlooketEvent";
-import { Panel } from "./lib/Panel";
 
 class BlooketHook implements ApplicationHook {
 
-    events: { [path: string]: AbstractFunctionCallEvent; };
-    panel: Panel
-    
-    constructor(panel: Panel) {
-        this.panel = panel;
-        this.events = {};
+
+    setStateFunction!: Function;
+
+    hookOriginalSetState(reactHandler: Function): void {
+        reactHandler().stateNode.originalSetState = this.setStateFunction;
     }
 
-    getEvent(path: string): AbstractFunctionCallEvent {
-        if (path in this.events) {
-            return this.events[path];
-        } else {
-            let func: Function = accessWithPath(this.panel.getReactHandler(), path);
-            if (func === undefined) {
-                throw new TypeError(`Cannot find function in path ${path}`)
-            }
-
-            if (typeof func !== "function") {
-                throw new TypeError(`Property with path ${path} is not type function`)
-            }
-            
-            const event = new FunctionCallEvent(func);
-            setWithPath(this.panel.getReactHandler(), path, BlooketHook.patch(event, func)); 
-            this.events[path] = event;
-
-            return event;
+    hookSetState(reactHandler: Function, stateChangeEvent: StateChangeEvent) {
+        if (this.isHooked(reactHandler)) {
+            throw new Error("setState function is already hooked");
         }
-    }
+        let oldSetState: Function = reactHandler().stateNode.setState;
+        this.setStateFunction = oldSetState;
+        reactHandler().stateNode.setState = function () {
 
-    private static patch(event: FunctionCallEvent, oldFunction: Function): Function {
-        const func = function(this: unknown) {
-            const result = event.emit(
+            const result = stateChangeEvent.emit(
                 new StateChangeEventData(
+                    reactHandler().stateNode.state,
                     arguments,
                     Date.now()
                 )
             );
-            
+
             if (!result.isCanceled)
-                oldFunction.apply(this, result.arguments);
+                oldSetState.apply(this, result.arguments);
+
+        };
+    }
+
+    unhookSetState(reactHandler: Function) {
+        if (this.setStateFunction === undefined) {
+            throw new Error("setState function is not hooked");
         }
-        return func;
+        reactHandler().stateNode.setState = this.setStateFunction;
     }
 
-    cleanUp(): void {
-        for (let i in this.events) {
-            const event = this.events[i];
-            setWithPath(this.panel.getReactHandler(), i, event.originalFunction); 
-        }
+    isHooked(reactHandler: Function): boolean {
+        const originalSetState = reactHandler().stateNode.setState
+        return originalSetState !== this.setStateFunction && this.setStateFunction !== undefined;
+
     }
-}
-
-function accessWithPath(obj: {[key: string]: any}, path: string): any {
-    const accesses = path.split(".");
-
-    let currentObj = obj;
-    for (let access of accesses) {
-        currentObj = currentObj[access]
-        if (currentObj == undefined) return undefined;
-    }
-    return currentObj;
-}
-
-// TODO Find a way to make it be able to mutate without having to do this bullshit
-function setWithPath(obj: {[key: string]: any}, path: string, thingToSet: any): void {
-    const allAccesses = path.split(".");
-    const accesses = allAccesses.slice(0, 1);
-    let currentObj = obj;
-    for (let access of accesses) {
-        currentObj = currentObj[access]
-        if (currentObj == undefined) return undefined;
-    }
-
-    currentObj[
-        allAccesses[allAccesses.length - 1]
-    ] = thingToSet;
 }
 
 export {

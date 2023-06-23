@@ -1,4 +1,4 @@
-import { AbstractFunctionCallEventData } from "../../lib/BlooketEvent";
+import { EventData } from "../../lib/BlooketEvent";
 import { Panel } from "../../lib/Panel";
 import { PanelModule } from "../../lib/PanelModule";
 
@@ -36,7 +36,7 @@ class OpChests implements PanelModule {
 
     onEnable(): void {
         this.toggleButton.style.color = "green"
-        this.panel.stateChangeEvent.quickSubscribe(this.id, (eventData: AbstractFunctionCallEventData): AbstractFunctionCallEventData => {
+        this.panel.stateChangeEvent.quickSubscribe(this.id, (eventData: EventData): EventData => {
             let args = eventData.arguments[0];
             if ("choices" in args) {
                 this.setChoices(args);

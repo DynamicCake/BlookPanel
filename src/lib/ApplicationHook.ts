@@ -1,24 +1,37 @@
-import { AbstractFunctionCallEvent } from "./BlooketEvent"
+import { AbstractStateChangeEvent } from "./BlooketEvent"
 
 abstract class ApplicationHook {
 
-    static isInit = false;
-    abstract events: EventMap
+    setStateFunction!: Function
 
     /**
-     * Gets the AbstractFunctionCallEvent from a string path.
-     * Events are lazily loaded, so if the event exists, the function will return the event,
-     * but if the event doesn't exist, it will be created.
-     * @param path path from reactHandler to the function
+     * Hooks into the `setState` function to be able to make events
+     * @param reactHandler react handler to hook into
+     * @throws if the `setState` function is already hooked
      */
-    abstract getEvent(path: string): AbstractFunctionCallEvent
+    abstract hookSetState(reactHandler: Function, stateChangeEvent: AbstractStateChangeEvent): void
 
-    abstract cleanUp(): void
+    /**
+     * Adds the original setState function in the stateNode
+     * @param reactHandler react handler to hook into
+     */
+    abstract hookOriginalSetState(reactHandler: Function): void
+    
+    /**
+     * Unhooks the `setState` function's event
+     * @param reactHandler the handler to remove the hook from
+     * @throws if the `setState` function isn't hooked
+     */
+    abstract unhookSetState(reactHandler: Function): void  
+
+    /**
+     * Checks if the setState function has been patched
+     * @param reactHandler the handler to check if there is a hook
+     */
+    abstract isHooked(reactHandler: Function): boolean 
+
 }
 
-type EventMap = {
-    [path: string]: AbstractFunctionCallEvent 
-}
 
 interface BlookPanelWindow extends Window {
     isPanelInjected: boolean

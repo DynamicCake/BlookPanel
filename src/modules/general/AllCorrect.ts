@@ -1,4 +1,4 @@
-import { AbstractFunctionCallEventData } from "../../lib/BlooketEvent";
+import { EventData } from "../../lib/BlooketEvent";
 import { Panel } from "../../lib/Panel";
 import { PanelModule } from "../../lib/PanelModule";
 
@@ -34,7 +34,7 @@ class AllCorrect implements PanelModule {
 
     private onEnable(): void {
         this.toggleButton.style.color = "green";
-        this.panel.stateChangeEvent.quickSubscribe(this.id, (event: AbstractFunctionCallEventData): AbstractFunctionCallEventData => {
+        this.panel.stateChangeEvent.quickSubscribe(this.id, (event: EventData): EventData => {
             const args = event.arguments[0];
             if ("question" in args) {
                 args.question.correctAnswers = args.question.answers;

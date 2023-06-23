@@ -1,4 +1,4 @@
-import { AbstractFunctionCallEventData, EventPriority } from "../lib/BlooketEvent";
+import { EventData, EventPriority } from "../lib/BlooketEvent";
 import { Panel } from "../lib/Panel";
 import { PanelModule } from "../lib/PanelModule";
 
@@ -16,7 +16,7 @@ class HelloWorldModule implements PanelModule {
 
         this.panel = panel;
         this.subscriberId = panel.stateChangeEvent.subscribe("HelloWorld", {
-            callback: (data: AbstractFunctionCallEventData): AbstractFunctionCallEventData => {
+            callback: (data: EventData): EventData => {
                 console.log("Hello StateChangeEvent", data);
                 return data;
             },
